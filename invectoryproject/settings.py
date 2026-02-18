@@ -73,7 +73,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'invectoryproject.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
@@ -128,3 +127,7 @@ STATIC_ROOT = (BASE_DIR / 'asert')
 STATICFILES_DIRS = [ 
     BASE_DIR / 'static',
       ]   
+
+LOGIN_REDIRECT_URL = 'dashboard-index'
+LOGOUT_REDIRECT_URL = 'user-login'
+LOGIN_URL = 'user-login'
