@@ -2,8 +2,9 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from.models import product
 from django.http import HttpResponse
-from .models import product
+from .models import product, oder
 from .forms import ProductForm
+from django.contrib.auth.models import User
 
 @login_required
 def dashboard_view(request):
@@ -11,7 +12,11 @@ def dashboard_view(request):
 
 @login_required
 def staff_view(request):
-    return render(request, 'dashboard/staff.html')  
+    workers = User.objects.all()
+    context = {
+        'workers':workers
+    }
+    return render(request, 'dashboard/staff.html', context)  
 
 @login_required
 def products_view(request):
@@ -29,7 +34,16 @@ def products_view(request):
         'form':form,
     }
     return render(request, 'dashboard/product.html',context)
+@login_required
+def staff_detail(request,pk):
+    workers = User.objects.get(id=pk)
+    context = {
+        'workers':workers,
+    }
+    
+    return render (request,'dashboard/staff_detail.html',context)
 
+@login_required
 def product_delete(request,pk):
     item = product.objects.get(id=pk)
     if request.method =='POST':
@@ -38,6 +52,7 @@ def product_delete(request,pk):
     
     return render(request, 'dashboard/product_delete.html')
 
+@login_required
 def product_update(request,pk):
     item = product.objects.get(id=pk)
     if request.method == 'POST':
@@ -57,7 +72,11 @@ def product_update(request,pk):
 
 @login_required
 def orders_view(request):
-    return render(request, 'dashboard/order.html')
+    oders = oder.objects.all()
+    context ={
+        'oders':oders,
+    }
+    return render(request, 'dashboard/order.html',context)
 
 def register(request):
     return render(request, 'dashboard/register.html')   
