@@ -3,12 +3,28 @@ from django.contrib.auth.decorators import login_required
 from.models import product
 from django.http import HttpResponse
 from .models import product, oder
-from .forms import ProductForm
+from .forms import ProductForm, oderForm
 from django.contrib.auth.models import User
+from django.contrib import messages
 
 @login_required
 def dashboard_view(request):
-    return render(request, 'dashboard/index.html')
+    oders= oder.objects.all()
+    if request.method == 'POST':
+        form = oderForm(request.POST)
+        if form.is_valid():
+            instance=form.save(commit=False)
+            instance.staff=request.user
+            instance.save()
+            return redirect('dashboard-index')
+    else:
+        form =oderForm()
+       
+    context={
+       'oders':oders,
+       'form':form,
+    }
+    return render(request, 'dashboard/index.html',context)
 
 @login_required
 def staff_view(request):
@@ -26,6 +42,9 @@ def products_view(request):
         form = ProductForm(request.POST)
         if form.is_valid():
          form.save()
+         product_name = form.cleaned_data.get('name')
+         messages.success(request, f'{product_name} has been added')
+
         return redirect('dashboard-products')
     else:
         form = ProductForm()
