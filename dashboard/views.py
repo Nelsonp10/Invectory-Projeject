@@ -10,6 +10,7 @@ from django.contrib import messages
 @login_required
 def dashboard_view(request):
     oders= oder.objects.all()
+    products =product.objects.all()
     if request.method == 'POST':
         form = oderForm(request.POST)
         if form.is_valid():
@@ -23,6 +24,7 @@ def dashboard_view(request):
     context={
        'oders':oders,
        'form':form,
+       'products':products,
     }
     return render(request, 'dashboard/index.html',context)
 

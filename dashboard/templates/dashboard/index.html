@@ -19,10 +19,10 @@
                         var myChart1 = new Chart(ctx, {
                             type: 'pie',
                             data: {
-                                labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                                labels: [{% for oder in oders %} '{{oder.product.name}}', {% endfor %}],
                                 datasets: [{
-                                    label: 'Products',
-                                    data: [12, 19, 3, 5, 2, 3],
+                                    label: 'Orders',
+                                    data: [{% for oder in oders  %} {{oder.order_quantity}},{% endfor %}],
                                     backgroundColor: [
                                         'rgba(255, 99, 132, 1)',
                                         'rgba(54, 162, 235, 1)',
@@ -30,6 +30,8 @@
                                         'rgba(75, 192, 192, 1)',
                                         'rgba(153, 102, 255, 1)',
                                         'rgba(255, 159, 64, 1)'
+                                        
+                                        
                                     ],
                                     borderColor: [
                                         'rgba(255, 99, 132, 1)',
@@ -63,10 +65,10 @@
                         var myChart = new Chart(ctx, {
                             type: 'bar',
                             data: {
-                                labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                                labels: [{% for product in  products%} '{{product.name}}', {% endfor %}],
                                 datasets: [{
                                     label: 'Products',
-                                    data: [12, 19, 3, 5, 2, 3],
+                                    data: [{% for product in products %} {{product.quantity}}, {% endfor %}],
                                     backgroundColor: [
                                         'rgba(255, 99, 132, 1)',
                                         'rgba(54, 162, 235, 1)',
